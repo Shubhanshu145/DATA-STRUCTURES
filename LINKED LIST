@@ -1,0 +1,174 @@
+//IN C LANGUAGE
+
+//
+//  main.c
+//  ll
+//
+//  Created by shubhanshu trivedi on 13/12/22.
+//
+
+#include <stdio.h>
+#include<stdlib.h>
+struct Node{
+    int data;
+    struct Node * next;
+};
+//for traversing the linked list
+void traversal(struct Node *ptr){
+    while(ptr!=NULL){
+        printf("%d",ptr->data);
+        ptr=ptr->next;
+    }
+}
+//for inserting data at the beginning
+struct Node * insertatbegin(struct Node *head,int val){
+    struct Node *ptr=(struct Node *)malloc(sizeof(struct Node));
+    ptr->data=val;
+    ptr->next=head;
+    
+    return ptr;
+    
+}
+// for inserting data at given index
+struct Node * insertatindex(struct Node *head,int data,int index){
+    struct Node *ptr;
+    ptr=(struct Node *)malloc(sizeof(struct Node));
+    ptr->data=data;
+    struct Node *p;
+    p=head;
+    int i=1;
+    while(i!=index-1){
+        p=p->next;
+        i++;
+    }
+    ptr->next=p->next;
+    p->next=ptr;
+    return head;
+    
+    
+}
+//inserting data at given nodes
+struct Node * insertaftergivennode(struct Node *head,struct Node *prevnode,int data){
+    struct Node *ptr;
+    ptr=(struct Node *)malloc(sizeof(struct Node));
+    ptr->data = data;
+    ptr->next = prevnode->next;
+    prevnode->next = ptr;
+    return head;
+}
+//inserting at last of linked list
+struct Node * insertatlast(struct Node *head,int data){
+    struct Node *ptr;
+    ptr=(struct Node *)malloc(sizeof(struct Node));
+    ptr->data=data;
+    struct Node *p=head;
+    //p=head;
+    
+    while(p->next!=NULL){
+        p=p->next;
+    }
+    
+    p->next=ptr;
+    ptr->next=NULL;
+    return head;
+}
+//deleting the first node
+struct Node * deletefirstnode(struct Node *head){
+    struct Node *ptr=head;
+    head=head->next;
+    free(ptr);
+    return head;
+}
+//deleting at a given index
+struct Node * deleteatindex(struct Node *head,int index){
+    struct Node *p=head;
+    struct Node *q=head->next;
+    int i = 0;
+    while(i!=index-1){
+        p=p->next;
+        q=q->next;
+        i++;
+    }
+    p->next=q->next;
+    free(q);
+    return head;
+}
+// deleting the last node
+struct Node * deletelastnode(struct Node *head){
+    struct Node *p = head;
+    struct Node *q = head->next;
+    while(q->next != NULL){
+        p=p->next;
+        q=q->next;
+    }
+    p->next = NULL;
+    free(q);
+    return head;
+}
+//deleting the given value
+struct Node * deletegivenvalue(struct Node *head,int value){
+    struct Node *p = head;
+    struct Node *q = head->next;
+    while(q->data != value && q->next != NULL){
+        p=p->next;
+        q=q->next;
+    }
+    if(q->data == value){
+        p->next = q->next;
+        free(q);
+    }
+    return head;
+}
+
+int main(int argc, const char * argv[]) {
+    struct Node* head;
+    struct Node* second;
+    
+    head = (struct Node *)malloc(sizeof(struct Node));
+    second=(struct Node *)malloc(sizeof(struct Node));
+    head->data=7;
+    
+    head->next = second;
+    second->data = 8;
+    second->next = NULL;
+    head=insertatbegin(head, 10);
+    traversal(head);
+    printf("\n");
+    
+    
+    
+    head=insertatindex(head, 3, 2);
+    traversal(head);
+    printf("\n");
+    
+    
+    insertatlast(head, 1);
+    printf("\n");
+    traversal(head);
+    printf("\n");
+    
+    
+    
+    insertaftergivennode(head, second , 45);
+    traversal(head);
+    printf("\n");
+    
+    
+    //head=deletefirstnode(head);
+    head = deleteatindex(head, 2);
+    traversal(head);
+    
+    
+    
+    head = deletelastnode(head);
+    printf("\n");
+    traversal(head);
+    printf("\n");
+    
+    
+    head = deletegivenvalue(head, 3);
+    traversal(head);
+    
+    
+    return 0;
+}
